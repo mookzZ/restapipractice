@@ -2,6 +2,7 @@ from rest_framework import generics, permissions
 
 from .models import Category, Publication
 from .serializers import CategorySerializer, PublishSerializer
+from .permissions import IsCreatorOrReadOnly
 
 class CategoryListCreateAPIView(generics.ListCreateAPIView):
     queryset = Category.objects.all()
@@ -22,4 +23,4 @@ class PublicationListCreateAPIView(generics.ListCreateAPIView):
 class PublicationRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Publication.objects.filter(is_archived=False)
     serializer_class = PublishSerializer
-    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly, IsCreatorOrReadOnly]
